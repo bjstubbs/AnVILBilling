@@ -1,0 +1,20 @@
+Package: AnVILBilling
+Title: AnVILBilling
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "BJ",
+           family = "Stubbs",
+           role = c("aut", "cre"),
+           email = "rebjh@channing.harvard.edu",
+           ),
+    person(given = "Vince",
+           family = "Carey",
+           role = c("aut"),
+           email = "rebjh@channing.harvard.edu",
+           ))
+Description: AnVILBilling helps monitor AnVIL related costs in R
+License: Artistic-2.0
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    testthat
