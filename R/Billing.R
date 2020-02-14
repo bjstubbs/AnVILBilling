@@ -15,23 +15,52 @@ getBilling<-function(startDate,endDate,bqProject,bqDataset,bqTable,bqBilling){
   return(out)
 }
 
-checkTerraSub<-function(item,terraSubID){
-  if("key"%in%names(item)){
-		if(any(item$key=="terra-submission-id" & item$value==terraSubID)){
-      ind=which(item$key=="terra-submission-id" & item$value==terraSubID)
+
+getKeys<-function(mybilling){
+  temp=mybilling$labels
+  getKeyTemp<-function(item){
+    if(length(item)>0){
+	     return(item$key)
+     }else{return(NA)}
+  }
+  res=unique(unlist(lapply(temp,getKeyTemp)))
+  res[!is.na(res)]
+
+}
+
+getValues<-function(mybilling,mykey){
+  temp=mybilling$labels
+  checkKey<-function(item){
+    if(length(item)>0){
+		if(any(item$key==mykey)){
+      ind=which(item$key==mykey)
+			return(item[ind,2])
+    }else{return(NA)}
+  }else{return(NA)}
+  }
+  res=unique(unlist(lapply(temp, checkKey)))
+  res[!is.na(res)]
+}
+
+subsetByKeyValue<-function(mybilling, mykey, myvalue){
+  temp=mybilling$labels
+  checkKeyVal<-function(item){
+    if(length(item)>0){
+		if(any(item$key==mykey&item$value==myvalue)){
 			return(TRUE)
-		}else{return(FALSE)}
+    }else{return(FALSE)}
   }else{return(FALSE)}
+  }
+  keep=sapply(temp, checkKeyVal)
+  mybilling[keep,]
 }
 
-getTerraSubsetByTID<-function(mybilling,myterraSubID){
-  res=lapply(mybilling$labels,function(x){checkTerraSub(x,tid)})
-  unlist(res)
+getSkus<-function(mybilling){
+  unique(unlist(lapply(mybilling$sku,function(x){x$description})))
 }
 
-getTerraRam<-function(mybilling,myterraSubID){
-  temp=getTerraSubsetByTID(mybilling,myterraSubID)
-  temp2=do.call("rbind.data.frame",mybilling$sku)
-  temp3=temp2[,2]=="Custom Instance Ram running in Americas"
-  return(temp&temp3)
+subsetBySku<-function(mybilling,mysku){
+  temp=mybilling$sku
+  keep=sapply(temp,function(x){ifelse(x$description==mysku,TRUE,FALSE)})
+  mybilling[keep,]
 }

@@ -1,6 +1,6 @@
 Package: AnVILBilling
 Title: AnVILBilling
-Version: 0.0.0.9000
+Version: 0.0.2
 Authors@R: 
     c(person(given = "BJ",
            family = "Stubbs",
