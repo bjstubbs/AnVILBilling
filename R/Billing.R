@@ -15,7 +15,6 @@ getBilling<-function(startDate,endDate,bqProject,bqDataset,bqTable,bqBilling){
   return(out)
 }
 
-
 getKeys<-function(mybilling){
   temp=mybilling$labels
   getKeyTemp<-function(item){
@@ -28,6 +27,10 @@ getKeys<-function(mybilling){
 
 }
 
+#' deal with nested tables in a reckoning
+#' @param mybilling tbl_df from reckon()
+#' @param mykey character(1) key
+#' @export
 getValues<-function(mybilling,mykey){
   temp=mybilling$labels
   checkKey<-function(item){
@@ -42,6 +45,17 @@ getValues<-function(mybilling,mykey){
   res[!is.na(res)]
 }
 
+#' filter a reckoning by 'label' retaining records associated with a particular key-value pair
+#' @param mybilling instance of avReckoning
+#' @param mykey character(1)
+#' @param myvalue character(1)
+#' @examples
+#' example(reckon) # makes rec
+#' v = getValues(rec@reckoning, "terra-submission-id")[1] # for instance
+#' nt = subsetByKeyValue(rec@reckoning, "terra-submission-id", v)
+#' head(nt)
+#' dim(nt)
+#' @export
 subsetByKeyValue<-function(mybilling, mykey, myvalue){
   temp=mybilling$labels
   checkKeyVal<-function(item){

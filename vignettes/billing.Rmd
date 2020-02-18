@@ -1,0 +1,52 @@
+---
+title: "Software for reckoning AnVIL/terra usage"
+author: "BJ Stubbs, Vincent J. Carey, rebjh/stvjc at channing.harvard.edu"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Software for reckoning AnVIL/terra usage}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    highlight: pygments
+    number_sections: yes
+    theme: united
+    toc: yes
+---
+
+# Introduction
+```{r lkd}
+suppressPackageStartupMessages({
+library(AnVILBilling)
+library(dplyr)
+library(magrittr)
+})
+```
+
+We took a snapshot of usage in a project we
+work on, using GCP cost retrieval to BigQuery.
+This is encapsulated in an instance of `avReckoning`.
+
+```{r lkaa}
+demo_rec
+```
+
+# Drilling down
+
+Given a key type, we want to know associated values.
+```{r lklklk}
+v = getValues(demo_rec@reckoning, "terra-submission-id")
+v
+```
+
+To understand activities associated with this submission,
+we subset the table.
+
+```{r adasd}
+s = subsetByKeyValue(demo_rec@reckoning, "terra-submission-id", v)
+s
+```
+Products used during the submission:
+```{r lkpr}
+AnVILBilling:::getSkus(s)
+```
