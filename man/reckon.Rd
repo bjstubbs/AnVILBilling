@@ -12,9 +12,3 @@ reckon(obj)
 \description{
 perform reckoning
 }
-\examples{
-req1 = setup_billing_request( "2020-01-28", "2020-01-29",
- "bjbilling", "anvilbilling", "gcp_billing_export_v1_015E39_38569D_3CC771",
- "landmarkanvil2")
-rec = reckon(req1)
-}

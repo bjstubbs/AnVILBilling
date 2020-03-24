@@ -28,11 +28,6 @@ setMethod("show", "avReckoning", function(object) {
 #' @param dataset character(1) GCP dataset id for billing data in BQ
 #' @param table character(1) GCP table for billing data in BQ
 #' @param billing_code character(1) GCP billing code
-#' @examples
-#' req1 = setup_billing_request( "2020-01-28", "2020-01-29",
-#'  "bjbilling", "anvilbilling", "gcp_billing_export_v1_015E39_38569D_3CC771",
-#'  "landmarkanvil2")
-#' req1
 #' @export
 setup_billing_request = function(
  start, end, project, dataset, table, billing_code ) {
@@ -47,11 +42,6 @@ setup_billing_request = function(
 
 #' perform reckoning
 #' @param obj instance of avReckoningRequest
-#' @examples
-#' req1 = setup_billing_request( "2020-01-28", "2020-01-29",
-#'  "bjbilling", "anvilbilling", "gcp_billing_export_v1_015E39_38569D_3CC771",
-#'  "landmarkanvil2")
-#' rec = reckon(req1)
 #' @export
 reckon = function(obj) {
   dat = getBilling(obj@start, obj@end, obj@project, obj@dataset, obj@table, obj@billing_code)

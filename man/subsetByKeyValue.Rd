@@ -18,8 +18,8 @@ filter a reckoning by 'label' retaining records associated with a particular key
 }
 \examples{
 example(reckon) # makes rec
-v = getValues(rec@reckoning, "terra-submission-id")[1] # for instance
-nt = subsetByKeyValue(rec@reckoning, "terra-submission-id", v)
+v = getValues(demo_rec@reckoning, "terra-submission-id")[1] # for instance
+nt = subsetByKeyValue(demo_rec@reckoning, "terra-submission-id", v)
 head(nt)
 dim(nt)
 }
