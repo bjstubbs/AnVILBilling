@@ -16,7 +16,7 @@ Description: AnVILBilling helps monitor AnVIL related costs in R
 License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true
-Imports: methods
+Imports: methods, DT, shiny, bigrquery, shinytoastr, DBI
 Suggests: 
     testthat
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
