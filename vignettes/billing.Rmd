@@ -18,6 +18,21 @@ output:
 
 Detailed billing information is essential for cost and resource planning in cloud based analysis projects, but it can be difficult to obtain. The goal of this software is to help users of the Terra/AnVIL platform get access to this data as easily as possible.
 
+The google cloud platform console can be used to acquire
+information at varying levels of detail.  For example, it
+is simple to generate a display like the following.
+
+![Cost track from Google console.](costsAug4.png)
+
+However, the cost track here sums up charges for various
+activities related to CPU usage, storage, and network use.
+Our aim is to provide R functions
+to help present information on charges arising
+in the use of AnVIL.
+
+
+
+
 # Setup
 
 The functions in this vignette require a user to connect the billing export in the Google Cloud Platform project associated with Terra/AnVIL to a BigQuery dataset.
@@ -32,6 +47,17 @@ In order to set this up with the AnVIL/Terra system:
 2. Create a BigQuery dataset to store the billing export
 3. Go to the billing tab in the gcloud console and enable export to this dataset
 4. Make sure the user of this software has the BigQuery scope on the billing project
+
+Once this is accomplished you will be able to see
+
+![exportview](exportPanel.png)
+
+with values appropriate to your project and account
+configuration substituted for 'landmarkMark2' (the compute project name),
+'bjbilling' (the Google project with BigQuery scope that is used
+to transmit cost data on landmarkMark2 to Bigquery), and 
+'anvilbilling' (the BigQuery dataset name where next-day cost values
+are stored).
 
 # Obtaining billing data
 
@@ -80,11 +106,14 @@ For Terra, 3 of the most useful keys are:
 
 1. terra-submission-id : this key is associated with a cromwell workflow execution
 2. cromwell-workflow-id : this key is associated with a job in a workflow, so if you apply a workflow to multiple inputs, you will have 1 terra id and multiple cromwell ids
-3. goog-dataproc-cluster-name : this key is associated with a jupyter notebook or Rstudio cluster on Terra. The user of these resources can be determined using the AnVIL API R package
+3. goog-dataproc-cluster-name : this key is associated with a jupyter notebook or Rstudio cluster on Terra. The user of these resources can be 
+determined using Bioconductor's `r Biocpkg("AnVIL")` package.
 
+The code, to be used while the cluster
+is in use, would look like this:
 ```{}
 library(AnVIL)
-leo=Leonardo()
+leo = Leonardo()
 leo$getCluster(clustername)
 ```
 
