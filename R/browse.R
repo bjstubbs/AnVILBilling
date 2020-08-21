@@ -31,7 +31,7 @@ report_interval = function(
 #' @importFrom bigrquery bigquery bq_auth
 #' @importFrom lubridate as_date
 #' @param bq_email character(1) email used to identify google BigQuery api user
-#' @return NULL
+#' @return returns "NULL"
 #' @export
 browse_reck = function(bq_email=NA) {
   bigrquery::bq_auth(email=bq_email)

@@ -28,6 +28,7 @@ setMethod("show", "avReckoning", function(object) {
 #' @param dataset character(1) GCP dataset id for billing data in BQ
 #' @param table character(1) GCP table for billing data in BQ
 #' @param billing_code character(1) GCP billing code
+#' @return instance of avReckoningRequest
 #' @examples
 #' lk1 = setup_billing_request("2020-08-01", "2020-08-15",
 #'    "bq_scoped_project", "bq_dataset", "bq_table", "billcode")

@@ -64,6 +64,7 @@ getValues<-function(mybilling,mykey){
 #' @param mybilling instance of avReckoning
 #' @param mykey character(1)
 #' @param myvalue character(1)
+#' @return data.frame
 #' @examples
 #' example(reckon) # makes rec
 #' v = getValues(demo_rec@reckoning, "terra-submission-id")[1] # for instance
@@ -94,6 +95,7 @@ getSkus<-function(mybilling){
 #' subset a billing object by sku
 #' @param mysku character(1) GCP product sku
 #' @param mybilling tbl_df
+#' @return data.frame
 subsetBySku<-function(mybilling,mysku){
   temp=mybilling$sku
   keep=sapply(temp,function(x){ifelse(x$description==mysku,TRUE,FALSE)})

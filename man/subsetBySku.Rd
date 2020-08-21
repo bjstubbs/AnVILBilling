@@ -11,6 +11,9 @@ subsetBySku(mybilling, mysku)
 
 \item{mysku}{character(1) GCP product sku}
 }
+\value{
+data.frame
+}
 \description{
 subset a billing object by sku
 }

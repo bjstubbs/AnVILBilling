@@ -13,6 +13,9 @@ subsetByKeyValue(mybilling, mykey, myvalue)
 
 \item{myvalue}{character(1)}
 }
+\value{
+data.frame
+}
 \description{
 filter a reckoning by 'label' retaining records associated with a particular key-value pair
 }

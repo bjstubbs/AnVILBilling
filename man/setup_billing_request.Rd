@@ -19,6 +19,9 @@ setup_billing_request(start, end, project, dataset, table, billing_code)
 
 \item{billing_code}{character(1) GCP billing code}
 }
+\value{
+instance of avReckoningRequest
+}
 \description{
 set up request object
 }

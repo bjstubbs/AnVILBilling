@@ -9,6 +9,9 @@ browse_reck(bq_email = NA)
 \arguments{
 \item{bq_email}{character(1) email used to identify google BigQuery api user}
 }
+\value{
+returns "NULL"
+}
 \description{
 prototypical cost exploring app
 }
