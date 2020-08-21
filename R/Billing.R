@@ -1,29 +1,32 @@
 #' request billing data
-#' @param start character(1) date of start of reckoning
-#' @param end character(1) date of end of reckoning
-#' @param project character(1) GCP project id
-#' @param dataset character(1) GCP dataset id for billing data in BQ
-#' @param table character(1) GCP table for billing data in BQ
-#' @param billing_code character(1) GCP billing code
-getBilling<-function(startDate,endDate,bqProject,bqDataset,bqTable,bqBilling){
-  require(bigrquery)
-  require(dbplyr)
-  require(magrittr)
-  require(dplyr)
+#' @importFrom DBI dbConnect dbListTables
+#' @importFrom bigrquery bigquery
+#' @import dplyr
+#' @import magrittr
+#' @param startDate character(1) date of start of reckoning
+#' @param endDate character(1) date of end of reckoning
+#' @param bqProject character(1) GCP project id
+#' @param bqDataset character(1) GCP dataset id for billing data in BQ
+#' @param bqTable character(1) GCP table for billing data in BQ
+#' @param bqBilling_code character(1) GCP billing code
+#' @return tbl_df
+#' @note On 21 August 2020 VJC changed condition on endDate to <=
+getBilling<-function(startDate,endDate,bqProject,bqDataset,bqTable,bqBilling_code){
   con <- DBI::dbConnect(
        bigquery(),
        project = bqProject,
        dataset = bqDataset,
-       billing = bqBilling
+       billing = bqBilling_code
      )
   out = con%>%tbl(bqTable)%>%
-    filter(usage_start_time>=startDate&usage_end_time<endDate)%>%
+    filter(usage_start_time >= startDate & usage_end_time <= endDate)%>%
     collect()
   return(out)
 }
 
 #' return keys
-#' @param mybillilng tbl_df
+#' @return character()
+#' @param mybilling tbl_df
 getKeys<-function(mybilling){
   temp=mybilling$labels
   getKeyTemp<-function(item){
@@ -39,6 +42,9 @@ getKeys<-function(mybilling){
 #' deal with nested tables in a reckoning
 #' @param mybilling tbl_df from reckon()
 #' @param mykey character(1) key
+#' @return character()
+#' @examples
+#' getValues(reckoning(demo_rec), "security")
 #' @export
 getValues<-function(mybilling,mykey){
   temp=mybilling$labels
@@ -79,14 +85,15 @@ subsetByKeyValue<-function(mybilling, mykey, myvalue){
 }
 
 #' List the available GCP product skus
-#' @param mybillilng tbl_df
+#' @param mybilling tbl_df
+#' @return character()
 getSkus<-function(mybilling){
   unique(unlist(lapply(mybilling$sku,function(x){x$description})))
 }
 
 #' subset a billing object by sku
 #' @param mysku character(1) GCP product sku
-#' @param mybillilng tbl_df
+#' @param mybilling tbl_df
 subsetBySku<-function(mybilling,mysku){
   temp=mybilling$sku
   keep=sapply(temp,function(x){ifelse(x$description==mysku,TRUE,FALSE)})

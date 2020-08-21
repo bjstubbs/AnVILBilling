@@ -7,7 +7,10 @@
 getKeys(mybilling)
 }
 \arguments{
-\item{mybillilng}{tbl_df}
+\item{mybilling}{tbl_df}
+}
+\value{
+character()
 }
 \description{
 return keys

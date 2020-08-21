@@ -13,7 +13,6 @@ kvpivot = function(lis) {
 report_interval = function(
    start, end, bqproject, dataset, table,
    billing_code) {
-    require(AnVILBilling)
     req = try(setup_billing_request(start=start,
 	end=end, project=bqproject, dataset=dataset,
         table=table, billing_code=billing_code))
@@ -30,7 +29,9 @@ report_interval = function(
 #' @importFrom DT dataTableOutput renderDataTable
 #' @importFrom DBI dbConnect
 #' @importFrom bigrquery bigquery bq_auth
+#' @importFrom lubridate as_date
 #' @param bq_email character(1) email used to identify google BigQuery api user
+#' @return NULL
 #' @export
 browse_reck = function(bq_email=NA) {
   bigrquery::bq_auth(email=bq_email)
@@ -43,7 +44,7 @@ browse_reck = function(bq_email=NA) {
      textInput("dataset", "BQdataset", value="anvilbilling"),
      textInput("billing", "billing code", value="landmarkanvil2"),
      dateInput("startd", "start date", value="2020-08-01"),
-     dateInput("endd", "end date", value="2020-08-18"),
+     dateInput("endd", "end date (inclusive)", value="2020-08-18"),
      actionButton("stopBtn", "stop app"),
      width=2
      ),
@@ -61,7 +62,7 @@ browse_reck = function(bq_email=NA) {
   )
   server = function(input, output) {
    getdb = reactive({
-    shinytoastr::toastr_info("establishing BQ connection")
+    shinytoastr::toastr_info("establishing BQ connection", newestOnTop=TRUE)
     con = DBI::dbConnect(bigrquery::bigquery(), 
          project =input$bqproj, billing=input$billing, dataset=input$dataset)
     list(con=con, table=dbListTables(con))
@@ -72,10 +73,12 @@ browse_reck = function(bq_email=NA) {
         input$endd, input$bqproj, input$dataset, dbstuff$table, input$billing)
     })
     getreck = reactive({
+    shinytoastr::toastr_info("reckoning...", newestOnTop=TRUE)
       AnVILBilling::reckon(getrequest())@reckoning
       })
 
    output$bag = DT::renderDataTable({
+      arec = NULL
       arec = getreck()
       sk = as_tibble(kvpivot(arec$sku))
       ss = split(arec$cost, sk$description)

@@ -7,9 +7,9 @@
 subsetBySku(mybilling, mysku)
 }
 \arguments{
-\item{mysku}{character(1) GCP product sku}
+\item{mybilling}{tbl_df}
 
-\item{mybillilng}{tbl_df}
+\item{mysku}{character(1) GCP product sku}
 }
 \description{
 subset a billing object by sku

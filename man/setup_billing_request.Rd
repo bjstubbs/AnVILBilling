@@ -22,3 +22,8 @@ setup_billing_request(start, end, project, dataset, table, billing_code)
 \description{
 set up request object
 }
+\examples{
+lk1 = setup_billing_request("2020-08-01", "2020-08-15",
+   "bq_scoped_project", "bq_dataset", "bq_table", "billcode")
+lk1
+}
