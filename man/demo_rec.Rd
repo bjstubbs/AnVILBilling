@@ -4,7 +4,9 @@
 \name{demo_rec}
 \alias{demo_rec}
 \title{a demonstration avReckoning object}
-\format{avReckoning instance}
+\format{
+avReckoning instance
+}
 \usage{
 demo_rec
 }

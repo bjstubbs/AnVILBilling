@@ -9,6 +9,13 @@ reckon(obj)
 \arguments{
 \item{obj}{instance of avReckoningRequest}
 }
+\value{
+instance of avReckoning
+}
 \description{
 perform reckoning
+}
+\examples{
+data(demo_rec)
+reckon(demo_rec)
 }

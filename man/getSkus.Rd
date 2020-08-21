@@ -7,7 +7,10 @@
 getSkus(mybilling)
 }
 \arguments{
-\item{mybillilng}{tbl_df}
+\item{mybilling}{tbl_df}
+}
+\value{
+character()
 }
 \description{
 List the available GCP product skus

@@ -4,21 +4,37 @@
 \alias{getBilling}
 \title{request billing data}
 \usage{
-getBilling(startDate, endDate, bqProject, bqDataset, bqTable, bqBilling)
+getBilling(
+  startDate,
+  endDate,
+  bqProject,
+  bqDataset,
+  bqTable,
+  bqBilling_code,
+  page_size = 50000
+)
 }
 \arguments{
-\item{start}{character(1) date of start of reckoning}
+\item{startDate}{character(1) date of start of reckoning}
 
-\item{end}{character(1) date of end of reckoning}
+\item{endDate}{character(1) date of end of reckoning}
 
-\item{project}{character(1) GCP project id}
+\item{bqProject}{character(1) GCP project id}
 
-\item{dataset}{character(1) GCP dataset id for billing data in BQ}
+\item{bqDataset}{character(1) GCP dataset id for billing data in BQ}
 
-\item{table}{character(1) GCP table for billing data in BQ}
+\item{bqTable}{character(1) GCP table for billing data in BQ}
 
-\item{billing_code}{character(1) GCP billing code}
+\item{bqBilling_code}{character(1) GCP billing code}
+
+\item{page_size}{numeric(1) passed to dbConnect}
+}
+\value{
+tbl_df
 }
 \description{
 request billing data
+}
+\note{
+On 21 August 2020 VJC changed condition on endDate to <=
 }

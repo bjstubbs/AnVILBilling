@@ -11,6 +11,12 @@ getValues(mybilling, mykey)
 
 \item{mykey}{character(1) key}
 }
+\value{
+character()
+}
 \description{
 deal with nested tables in a reckoning
+}
+\examples{
+getValues(reckoning(demo_rec), "security")
 }
