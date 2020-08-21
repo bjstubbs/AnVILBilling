@@ -57,6 +57,9 @@ browse_reck = function(bq_email=NA) {
        ),
       tabPanel("plot",
        plotOutput("plot")
+       ),
+      tabPanel("about",
+       verbatimTextOutput("sess")
        )
       )
     )
@@ -88,14 +91,20 @@ browse_reck = function(bq_email=NA) {
       ans = ans[ans>0]
       nm = names(ans)
       lk = data.frame(service=nm, cost=ans[ans>0])
+      sm = sum(ans[ans>0])
+      nd = data.frame(service="TOTAL", cost=sm)
+      lk = rbind(lk, nd)
       rownames(lk) = NULL
       lk
-      })
+      }, options=list(lengthMenu=c(25,50,100)))
    output$plot = renderPlot({
       arec = getreck()
       xx = split(arec$cost, arec$usage_start_time)
       sxx = sapply(xx,sum)
       plot(lubridate::as_date(names(sxx)), as.numeric(sxx))
+      })
+   output$sess = renderPrint({
+      list(note="This is a prototype of a system for reviewing costs associated with AnVIL usage.", sess=sessionInfo())
       })
    observeEvent(input$stopBtn, stopApp(returnValue=NULL))
   }

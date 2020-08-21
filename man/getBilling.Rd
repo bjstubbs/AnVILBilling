@@ -4,7 +4,15 @@
 \alias{getBilling}
 \title{request billing data}
 \usage{
-getBilling(startDate, endDate, bqProject, bqDataset, bqTable, bqBilling_code)
+getBilling(
+  startDate,
+  endDate,
+  bqProject,
+  bqDataset,
+  bqTable,
+  bqBilling_code,
+  page_size = 50000
+)
 }
 \arguments{
 \item{startDate}{character(1) date of start of reckoning}
@@ -18,6 +26,8 @@ getBilling(startDate, endDate, bqProject, bqDataset, bqTable, bqBilling_code)
 \item{bqTable}{character(1) GCP table for billing data in BQ}
 
 \item{bqBilling_code}{character(1) GCP billing code}
+
+\item{page_size}{numeric(1) passed to dbConnect}
 }
 \value{
 tbl_df

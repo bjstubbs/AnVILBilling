@@ -1,6 +1,6 @@
 #' request billing data
 #' @importFrom DBI dbConnect dbListTables
-#' @importFrom bigrquery bigquery
+#' @importFrom bigrquery bigquery dbConnect
 #' @import dplyr
 #' @import magrittr
 #' @param startDate character(1) date of start of reckoning
@@ -9,14 +9,17 @@
 #' @param bqDataset character(1) GCP dataset id for billing data in BQ
 #' @param bqTable character(1) GCP table for billing data in BQ
 #' @param bqBilling_code character(1) GCP billing code
+#' @param page_size numeric(1) passed to dbConnect
 #' @return tbl_df
 #' @note On 21 August 2020 VJC changed condition on endDate to <=
-getBilling<-function(startDate,endDate,bqProject,bqDataset,bqTable,bqBilling_code){
-  con <- DBI::dbConnect(
+getBilling<-function(startDate,endDate,bqProject,bqDataset,bqTable,bqBilling_code,
+              page_size=50000){
+  con <- bigrquery::dbConnect(
        bigquery(),
        project = bqProject,
        dataset = bqDataset,
-       billing = bqBilling_code
+       billing = bqBilling_code,
+       page_size=page_size
      )
   out = con%>%tbl(bqTable)%>%
     filter(usage_start_time >= startDate & usage_end_time <= endDate)%>%

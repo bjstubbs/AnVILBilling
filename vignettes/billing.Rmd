@@ -30,6 +30,11 @@ Our aim is to provide R functions
 to help present information on charges arising
 in the use of AnVIL.
 
+To whet the appetite, we will show how to run an exploratory app
+that looks like:
+
+![Early view of reckoning app.](appshot1.png)
+
 
 
 
@@ -85,9 +90,9 @@ To create a request.
 
 Once you have a request object, then you can get the billing data associated with that request using the reckon() function on your billing request.
 
-## output
+## Output
 
-The result of a reckonging on a billing request is an instance of `avReckoning`
+The result of a reckoning on a billing request is an instance of `avReckoning`
 
 We took a snapshot of usage in a project we work on, and it is available as demo_rec. This request represents one day of usage in AnVIL/Terra.
 
@@ -143,3 +148,12 @@ You can drill down more to see what products used during the submission:
 ```{r lkpr}
 AnVILBilling:::getSkus(s)
 ```
+
+# Using the exploratory app
+
+To simplify some of the aspects of reporting on costs, we have introduced
+`browse_reck`, which will authenticate the user to Google BigQuery, and
+use user-specified inputs to identify an interval of days between which
+usage data are sought.  This function can be called with no arguments,
+or you can supply the email address for the Google identity to be used
+in working with Google Cloud Platform projects and BigQuery.
