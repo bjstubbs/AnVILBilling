@@ -15,3 +15,6 @@ returns "NULL"
 \description{
 prototypical cost exploring app
 }
+\examples{
+if (interactive()) browse_reck()
+}

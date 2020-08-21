@@ -4,7 +4,7 @@ kvpivot = function(lis) {
  stopifnot(all(lens==2))
  nms = names(lis[[1]])
  ul = unlist(lis)
- ans = data.frame(t(matrix(ul, nr=2)))
+ ans = data.frame(t(matrix(ul, nrow=2)))
  names(ans) = nms
  ans
 }
@@ -32,6 +32,8 @@ report_interval = function(
 #' @importFrom lubridate as_date
 #' @param bq_email character(1) email used to identify google BigQuery api user
 #' @return returns "NULL"
+#' @examples
+#' if (interactive()) browse_reck()
 #' @export
 browse_reck = function(bq_email=NA) {
   bigrquery::bq_auth(email=bq_email)
@@ -95,7 +97,7 @@ browse_reck = function(bq_email=NA) {
       sxx = sapply(xx,sum)
       plot(lubridate::as_date(names(sxx)), as.numeric(sxx))
       })
-   observeEvent(input$stopBtn, stopApp(returnVal=NULL))
+   observeEvent(input$stopBtn, stopApp(returnValue=NULL))
   }
   runApp(list(ui=ui, server=server))
 }

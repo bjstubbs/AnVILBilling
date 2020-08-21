@@ -58,9 +58,18 @@ reckon = function(obj) {
   new("avReckoning", obj, reckoning = dat, keys=keys)
 }
 
+#' generic for accessor for reckoning component
+#' @param x object inheriting from avReckoning
+#' @return tbl_df
+#' @examples
+#' if (interactive()) reckoning(reckon(demo_rec))
+#' @export
 setGeneric("reckoning", function(x) standardGeneric("reckoning"))
+
 #' accessor for reckoning component
 #' @param x instance of avReckoning
 #' @return tbl_df
+#' @examples
+#' if (interactive()) reckoning(reckon(demo_rec))
 #' @export
 setMethod("reckoning", "avReckoning", function(x) x@reckoning)

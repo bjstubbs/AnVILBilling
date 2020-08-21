@@ -3,6 +3,7 @@
 export(browse_reck)
 export(getValues)
 export(reckon)
+export(reckoning)
 export(setup_billing_request)
 export(subsetByKeyValue)
 exportMethods(reckoning)

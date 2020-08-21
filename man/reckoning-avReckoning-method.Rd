@@ -15,3 +15,6 @@ tbl_df
 \description{
 accessor for reckoning component
 }
+\examples{
+if (interactive()) reckoning(reckon(demo_rec))
+}
