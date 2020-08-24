@@ -29,7 +29,9 @@ report_interval = function(
 #' @importFrom DT dataTableOutput renderDataTable
 #' @importFrom DBI dbConnect
 #' @importFrom bigrquery bigquery bq_auth
-#' @importFrom lubridate as_date
+#' @importFrom lubridate as_date as_datetime
+#' @importFrom plotly ggplotly plotlyOutput renderPlotly
+#' @importFrom ggplot2 ggplot aes geom_point geom_bar theme
 #' @param bq_email character(1) email used to identify google BigQuery api user
 #' @return returns "NULL"
 #' @examples
@@ -45,10 +47,10 @@ browse_reck = function(bq_email=NA) {
      textInput("bqproj", "BQproject", value="bjbilling"),
      textInput("dataset", "BQdataset", value="anvilbilling"),
      textInput("billing", "billing code", value="landmarkanvil2"),
-     dateInput("startd", "start date", value="2020-08-01"),
-     dateInput("endd", "end date (inclusive)", value="2020-08-18"),
+     dateInput("startd", "start date", value="2020-08-04"),
+     dateInput("endd", "end date (inclusive)", value="2020-08-10"),
      actionButton("stopBtn", "stop app"),
-     width=2
+     width=3
      ),
     mainPanel(
      tabsetPanel(
@@ -56,7 +58,8 @@ browse_reck = function(bq_email=NA) {
        DT::dataTableOutput("bag")
        ),
       tabPanel("plot",
-       plotOutput("plot")
+       plotlyOutput("plot"),
+       plotOutput("cumplot")
        ),
       tabPanel("about",
        verbatimTextOutput("sess")
@@ -97,16 +100,30 @@ browse_reck = function(bq_email=NA) {
       rownames(lk) = NULL
       lk
       }, options=list(lengthMenu=c(25,50,100)))
-   output$plot = renderPlot({
+   output$plot = renderPlotly({
+#      arec = getreck()
+#      xx = split(arec$cost, arec$usage_start_time)
+#      sxx = sapply(xx,sum)
+#      plot(lubridate::as_datetime(names(sxx)), as.numeric(sxx))
+       arec = getreck()
+       arecsk = AnVILBilling:::kvpivot(arec$sku)
+       arec$res = arecsk[,2]
+       arec = arec[arec$cost>0,]
+       parec = ggplot(arec, aes(x=usage_start_time, y=cost, fill=res)) + 
+             geom_bar(stat="identity")  + theme(legend.position="none")
+       ggplotly(parec)
+      })
+   output$cumplot = renderPlot({
       arec = getreck()
-      xx = split(arec$cost, arec$usage_start_time)
-      sxx = sapply(xx,sum)
-      plot(lubridate::as_date(names(sxx)), as.numeric(sxx))
+      arec = arec[order(arec$usage_start_time),]
+      ggplot(arec, aes(x=usage_start_time, y=cumsum(cost))) + geom_point()
       })
    output$sess = renderPrint({
       list(note="This is a prototype of a system for reviewing costs associated with AnVIL usage.", sess=sessionInfo())
       })
-   observeEvent(input$stopBtn, stopApp(returnValue=NULL))
+   observeEvent(input$stopBtn, stopApp(returnValue=getreck()))
   }
   runApp(list(ui=ui, server=server))
 }
+
+
