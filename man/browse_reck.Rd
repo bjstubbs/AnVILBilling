@@ -4,10 +4,12 @@
 \alias{browse_reck}
 \title{prototypical cost exploring app}
 \usage{
-browse_reck(bq_email = NA)
+browse_reck(bq_email = NA, do_auth = FALSE)
 }
 \arguments{
 \item{bq_email}{character(1) email used to identify google BigQuery api user}
+
+\item{do_auth}{logical(1) if TRUE explicitly use bq_auth to authenticate to bigquery}
 }
 \value{
 returns "NULL"

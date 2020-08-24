@@ -33,12 +33,13 @@ report_interval = function(
 #' @importFrom plotly ggplotly plotlyOutput renderPlotly
 #' @importFrom ggplot2 ggplot aes geom_point geom_bar theme
 #' @param bq_email character(1) email used to identify google BigQuery api user
+#' @param do_auth logical(1) if TRUE explicitly use bq_auth to authenticate to bigquery
 #' @return returns "NULL"
 #' @examples
 #' if (interactive()) browse_reck()
 #' @export
-browse_reck = function(bq_email=NA) {
-  bigrquery::bq_auth(email=bq_email)
+browse_reck = function(bq_email=NA, do_auth=FALSE) {
+  if (do_auth) bigrquery::bq_auth(email=bq_email)
   ui = fluidPage(
    shinytoastr::useToastr(),
    sidebarLayout(
