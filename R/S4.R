@@ -50,7 +50,7 @@ setup_billing_request = function(
 #' @return instance of avReckoning
 #' @examples
 #' data(demo_rec)
-#' reckon(demo_rec)
+#' if (interactive()) reckon(demo_rec)
 #' @export
 reckon = function(obj) {
   dat = getBilling(obj@start, obj@end, obj@project, obj@dataset, obj@table, obj@billing_code)

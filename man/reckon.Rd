@@ -17,5 +17,5 @@ perform reckoning
 }
 \examples{
 data(demo_rec)
-reckon(demo_rec)
+if (interactive()) reckon(demo_rec)
 }
