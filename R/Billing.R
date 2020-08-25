@@ -47,7 +47,7 @@ getKeys<-function(mybilling){
 #' @param mykey character(1) key
 #' @return character()
 #' @examples
-#' getValues(reckoning(demo_rec), "security")
+#' if (interactive()) #' getValues(reckoning(demo_rec), "security")
 #' @export
 getValues<-function(mybilling,mykey){
   temp=mybilling$labels

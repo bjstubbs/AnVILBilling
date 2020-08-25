@@ -18,5 +18,5 @@ character()
 deal with nested tables in a reckoning
 }
 \examples{
-getValues(reckoning(demo_rec), "security")
+if (interactive()) #' getValues(reckoning(demo_rec), "security")
 }
