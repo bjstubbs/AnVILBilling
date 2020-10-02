@@ -20,7 +20,7 @@ data.frame
 filter a reckoning by 'label' retaining records associated with a particular key-value pair
 }
 \examples{
-example(reckon) # makes rec
+data(demo_rec) # makes rec
 v = getValues(demo_rec@reckoning, "terra-submission-id")[1] # for instance
 nt = subsetByKeyValue(demo_rec@reckoning, "terra-submission-id", v)
 head(nt)

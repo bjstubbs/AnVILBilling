@@ -69,7 +69,7 @@ getValues<-function(mybilling,mykey){
 #' @param myvalue character(1)
 #' @return data.frame
 #' @examples
-#' example(reckon) # makes rec
+#' data(demo_rec) # makes rec
 #' v = getValues(demo_rec@reckoning, "terra-submission-id")[1] # for instance
 #' nt = subsetByKeyValue(demo_rec@reckoning, "terra-submission-id", v)
 #' head(nt)
@@ -103,4 +103,51 @@ subsetBySku<-function(mybilling,mysku){
   temp=mybilling$sku
   keep=sapply(temp,function(x){ifelse(x$description==mysku,TRUE,FALSE)})
   mybilling[keep,]
+}
+
+#' Calcuate costs for a workflow submission by ID
+#' @param mybilling tbl_df
+#' @param submissionID character(1) Terra submission ID
+#' @return numeric()
+#' @examples
+#' data(demo_rec) # makes rec
+#' v = getValues(demo_rec@reckoning, "terra-submission-id")[1] # for instance
+#' getSubmissionCost(demo_rec@reckoning,v)
+#' @export
+getSubmissionCost<-function(mybilling, submissionID){
+    if(!grepl(submissionID,pattern="^terra",perl=TRUE)){submissionID=paste0("terra-",submissionID)}
+    temp=subsetByKeyValue(mybilling, "terra-submission-id", submissionID)
+    sum(temp$cost)
+}
+
+#' Calcuate ram usage for a workflow submission by ID
+#' @param mybilling tbl_df
+#' @param submissionID character(1) Terra submission ID
+#' @return data.frame
+#' @examples
+#' data(demo_rec) # makes rec
+#' v = getValues(demo_rec@reckoning, "terra-submission-id")[1] # for instance
+#' getSubmissionRam(demo_rec@reckoning,v)
+#' @export
+getSubmissionRam<-function(mybilling, submissionID){
+    if(!grepl(submissionID,pattern="^terra", perl=TRUE)){submissionID=paste0("terra-",submissionID)}
+    temp=subsetByKeyValue(mybilling, "terra-submission-id", submissionID)
+    tempskus=sapply(temp$sku, function(x){x$description})
+    temp=temp[tempskus=="Custom Instance Ram running in Americas",]
+
+    cromids=as.character(sapply(temp$labels, function(x){
+        ind=which(x$key=="cromwell-workflow-id")
+        x[ind,"value"]}))
+
+    wfnames=as.character(sapply(temp$labels,function(x){
+        ind=which(x$key=="wdl-task-name")
+        x[ind,"value"]}))
+
+    ram1=sapply(temp$usage, function(x){x$amount})
+    ram2=sapply(temp$usage, function(x){x$unit})
+    ram3=sapply(temp$usage, function(x){x$pricing_unit})
+    ram4=sapply(temp$usage, function(x){x$amount_in_pricing_units})
+    fskus=sapply(temp$sku, function(x){x$description})
+    retdf=data.frame(submissionID=rep(submissionID,nrow(temp)),workflow=wfnames, cromwellID=cromids,sku=fskus, amount=ram1, unit=ram2, pricingUnit=ram3, amountInPricingUnit=ram4)
+    retdf
 }
